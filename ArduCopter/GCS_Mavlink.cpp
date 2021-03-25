@@ -557,22 +557,33 @@ void GCS_MAVLINK_Copter::handle_rc_channels_override(const mavlink_message_t &ms
     
                                                                     // beginning of my code
     uint16_t i = hal.rcin->read(5);         // reading ch6 from pilot
-    float k = hal.rcin->read(3);         // reading ch4 (YAW) from pilot
-    uint16_t l = 0;
+    float k = hal.rcin->read(3);            // reading ch4 (=YAW) from pilot
+    uint16_t l = 0;                         // create variabele l and make l zero
+    uint16_t datach5 = 1100;
 
-    //gcs().send_text(MAV_SEVERITY_CRITICAL, "k == %5f", k);
-
-    if (k <= 1494) {
+    if (k <= 1494) {        // if ch4 (=YAW) isn't centered, make l one
         l = 1;
     }
     if (k >= 1534) {
         l = 1;
     }
 
+    if (override_data[4] <= 1150) {
+        datach5 = 1050;
+    }
+    if (override_data[4] >= 1151) {
+        if (override_data[4] <= 1250) {
+            datach5 = 1500;
+        }
+    }
+    if (override_data[4] >= 1251) {
+        datach5 = 1950;
+    }
+
     if (i >= 1850) {                                               // if ch6 from the pilot is high then this part will work
         RC_Channels::set_override(8, override_data[0], tnow);      // ch9 from the pilot will be overrided by ch1 from MavLink
         RC_Channels::set_override(9, override_data[1], tnow);      // ch10 from the pilot will be overrided by ch2 from MavLink
-        RC_Channels::set_override(10, override_data[4], tnow);     // ch11 from the pilot will be overrided by ch5 from MavLink
+        RC_Channels::set_override(10, datach5, tnow);     // ch11 from the pilot will be overrided by ch5 from MavLink
         RC_Channels::set_override(11, override_data[2], tnow);     // ch12 from the pilot will be overrided by ch3 from MavLink
         RC_Channels::set_override(12, override_data[5], tnow);     // ch13 from the pilot will be overrided by ch6 from MavLink
         if (k >= 1494) {                             // if ch4 (=YAW) from the pilot is centered then this part will work
@@ -586,7 +597,6 @@ void GCS_MAVLINK_Copter::handle_rc_channels_override(const mavlink_message_t &ms
         }
     }
     else {                                                          // if ch6 isn't hight, then this part will work
-        RC_Channels::set_override(10, 1500, tnow);                  // ch 11 from the pilot will be overrided by 1500
         RC_Channels::set_override(11, 1500, tnow);                  // ch 12 from the pilot will be overrided by 1500
         RC_Channels::set_override(12, 1500, tnow);                  // ch 13 from the pilot will be overrided by 1500
     }
