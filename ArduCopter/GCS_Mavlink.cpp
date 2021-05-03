@@ -582,26 +582,35 @@ void GCS_MAVLINK_Copter::handle_rc_channels_override(const mavlink_message_t &ms
 
     if (i >= 1850) {                                               // if ch6 from the pilot is high then this part will work
         RC_Channels::set_override(8, override_data[0], tnow);      // ch9 from the pilot will be overrided by ch1 from MavLink
+        hal.scheduler->delay(20);
         RC_Channels::set_override(9, override_data[1], tnow);      // ch10 from the pilot will be overrided by ch2 from MavLink
+        hal.scheduler->delay(20);
         RC_Channels::set_override(10, datach5, tnow);     // ch11 from the pilot will be overrided by ch5 from MavLink
+        hal.scheduler->delay(20);
         RC_Channels::set_override(11, override_data[2], tnow);     // ch12 from the pilot will be overrided by ch3 from MavLink
+        hal.scheduler->delay(20);
         RC_Channels::set_override(12, override_data[5], tnow);     // ch13 from the pilot will be overrided by ch6 from MavLink
+        hal.scheduler->delay(20);
         if (k >= 1494) {                             // if ch4 (=YAW) from the pilot is centered then this part will work
             if (k <= 1534) {
                 l = 0;
                 RC_Channels::set_override(3, override_data[3], tnow);   // ch4 (=YAW) from the pilot will be override by ch4 from MavLink
+                hal.scheduler->delay(20);
             }
         }
         if (l == 1) {
             RC_Channels::set_override(3, k, tnow);
+            hal.scheduler->delay(20);
         }
     }
     else {                                                          // if ch6 isn't hight, then this part will work
         RC_Channels::set_override(11, 1500, tnow);                  // ch 12 from the pilot will be overrided by 1500
+        hal.scheduler->delay(20);
         RC_Channels::set_override(12, 1950, tnow);                  // ch 13 from the pilot will be overrided by 1500
+        hal.scheduler->delay(20);
     }
 
-    hal.scheduler->delay(200);
+    hal.scheduler->delay(20);
                                                                     // ending of my code
 }
 
