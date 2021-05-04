@@ -544,15 +544,6 @@ void GCS_MAVLINK_Copter::handle_rc_channels_override(const mavlink_message_t &ms
         packet.chan5_raw,
         packet.chan6_raw,
         packet.chan7_raw,
-        packet.chan8_raw,
-        packet.chan9_raw,
-        packet.chan10_raw,
-        packet.chan11_raw,
-        packet.chan12_raw,
-        packet.chan13_raw,
-        packet.chan14_raw,
-        packet.chan15_raw,
-        packet.chan16_raw
     };
     
                                                                     // beginning of my code
