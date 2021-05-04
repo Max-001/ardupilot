@@ -598,7 +598,7 @@ void GCS_MAVLINK_Copter::handle_rc_channels_override(const mavlink_message_t &ms
     }
     else {                                                          // if ch6 isn't hight, then this part will work
         RC_Channels::set_override(11, 1500, tnow);                  // ch 12 from the pilot will be overrided by 1500
-        //RC_Channels::set_override(12, 1950, tnow);                  // ch 13 from the pilot will be overrided by 1500
+        RC_Channels::set_override(12, 1950, tnow);                  // ch 13 from the pilot will be overrided by 1500
     }
 
     hal.scheduler->delay(20);
@@ -977,34 +977,34 @@ void GCS_MAVLINK_Copter::handleMessage(const mavlink_message_t &msg)
         break;
     }
 
-    case MAVLINK_MSG_ID_MANUAL_CONTROL:
-    {
-        if (msg.sysid != copter.g.sysid_my_gcs) {
-            break; // only accept control from our gcs
-        }
+    //case MAVLINK_MSG_ID_MANUAL_CONTROL:
+    //{
+    //    if (msg.sysid != copter.g.sysid_my_gcs) {
+    //        break; // only accept control from our gcs
+    //    }
 
-        mavlink_manual_control_t packet;
-        mavlink_msg_manual_control_decode(&msg, &packet);
+    //  mavlink_manual_control_t packet;
+    //  mavlink_msg_manual_control_decode(&msg, &packet);
 
-        if (packet.target != copter.g.sysid_this_mav) {
-            break; // only accept control aimed at us
-        }
+    //  if (packet.target != copter.g.sysid_this_mav) {
+    //      break; // only accept control aimed at us
+    //  }
 
-        if (packet.z < 0) { // Copter doesn't do negative thrust
-            break;
-        }
+    //  if (packet.z < 0) { // Copter doesn't do negative thrust
+    //      break;
+    //  }
 
-        uint32_t tnow = AP_HAL::millis();
+    //  uint32_t tnow = AP_HAL::millis();
 
-        manual_override(copter.channel_roll, packet.y, 1000, 2000, tnow);
-        manual_override(copter.channel_pitch, packet.x, 1000, 2000, tnow, true);
-        manual_override(copter.channel_throttle, packet.z, 0, 1000, tnow);
-        manual_override(copter.channel_yaw, packet.r, 1000, 2000, tnow);
+    //  manual_override(copter.channel_roll, packet.y, 1000, 2000, tnow);
+    //  manual_override(copter.channel_pitch, packet.x, 1000, 2000, tnow, true);
+    //  manual_override(copter.channel_throttle, packet.z, 0, 1000, tnow);
+    //  manual_override(copter.channel_yaw, packet.r, 1000, 2000, tnow);
 
         // a manual control message is considered to be a 'heartbeat' from the ground station for failsafe purposes
-        copter.failsafe.last_heartbeat_ms = tnow;
-        break;
-    }
+    //  copter.failsafe.last_heartbeat_ms = tnow;
+    //  break;
+    //}
 
 #if MODE_GUIDED_ENABLED == ENABLED
     case MAVLINK_MSG_ID_SET_ATTITUDE_TARGET:   // MAV ID: 82
