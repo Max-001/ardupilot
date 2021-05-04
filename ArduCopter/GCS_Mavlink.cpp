@@ -592,7 +592,7 @@ void GCS_MAVLINK_Copter::handle_rc_channels_override(const mavlink_message_t &ms
         RC_Channels::set_override(12, 1950, tnow);                  // ch 13 from the pilot will be overrided by 1500
     }
 
-    hal.scheduler->delay(20);
+    hal.scheduler->delay(5);
                                                                     // ending of my code
 }
 
