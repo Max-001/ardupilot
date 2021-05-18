@@ -83,6 +83,8 @@ AP_LandingGear *AP_LandingGear::_singleton;
 /// initialise state of landing gear
 void AP_LandingGear::init()
 {
+    gcs().send_text(MAV_SEVERITY_INFO, "part two");     //ACECORE
+
     if (_pin_deployed != -1) {
         hal.gpio->pinMode(_pin_deployed, HAL_GPIO_INPUT);
         // set pullup/pulldown to default to non-deployed state
@@ -112,11 +114,11 @@ void AP_LandingGear::init()
 }
 
 /// set landing gear position to retract, deploy or deploy-and-keep-deployed
-void AP_LandingGear::set_position(LandingGearCommand cmd)
+void AP_LandingGear::set_position(LandingGearCommand cmd)                           //Dit gedeelte komt alleen voor aan het begin bij het initialiseren
 {
-    uint16_t i = hal.rcin->read(5);         // reading ch6
-    gcs().send_text(MAV_SEVERITY_CRITICAL, "i == %5f", i);
-    gcs().send_text(MAV_SEVERITY_INFO, "part one");
+    //uint16_t i = hal.rcin->read(5);         // reading ch6
+    //gcs().send_text(MAV_SEVERITY_CRITICAL, "i == %5f", i);
+    //gcs().send_text(MAV_SEVERITY_INFO, "part one");
 
     switch (cmd) {
         case LandingGear_Retract:
@@ -126,10 +128,10 @@ void AP_LandingGear::set_position(LandingGearCommand cmd)
             deploy();
             break;
     }
-    if (i >= 1500) {
-        retract();
-        gcs().send_text(MAV_SEVERITY_INFO, "Dit werkt");
-    }
+    //if (i >= 1500) {
+    //    retract();
+    //    gcs().send_text(MAV_SEVERITY_INFO, "Dit werkt");
+    //}
 }
 
 /// deploy - deploy landing gear
