@@ -115,6 +115,8 @@ void AP_LandingGear::init()
 void AP_LandingGear::set_position(LandingGearCommand cmd)
 {
     uint16_t i = hal.rcin->read(5);         // reading ch6
+    gcs().send_text(MAV_SEVERITY_CRITICAL, "i == %5f", i);
+    gcs().send_text(MAV_SEVERITY_INFO, "part one");
 
     switch (cmd) {
         case LandingGear_Retract:
