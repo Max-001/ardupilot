@@ -6,7 +6,11 @@ void Copter::landinggear_update()
 {
     //ACECORE
     if (!copter.motors->armed()) {                                              //If copter is disarmed, the landing gear will deploy and stay deployed
-        copter.landinggear.set_position(AP_LandingGear::LandingGear_Deploy);
+        if (hal.rcin->read(0) <= 1800) {                                        //Only works when first joystick is not high (this way we can test the retract when disarmed)
+            if (hal.rcin->read(1) >= 1200) {                                    //Only works when second joystick is nog low (this way we can test the retract when disarmed)
+                copter.landinggear.set_position(AP_LandingGear::LandingGear_Deploy);
+            }
+        }
     }
     //ACECORE
 
