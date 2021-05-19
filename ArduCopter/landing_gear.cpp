@@ -4,9 +4,13 @@
 // Run landing gear controller at 10Hz
 void Copter::landinggear_update()
 {
-    uint16_t i = hal.rcin->read(5);         // reading ch6
+    //ACECORE
+    float i = hal.rcin->read(5);         // reading ch6
     gcs().send_text(MAV_SEVERITY_CRITICAL, "i == %5f", i);
-    gcs().send_text(MAV_SEVERITY_INFO, "test");
+    if (!copter.motors->armed()) {
+        gcs().send_text(MAV_SEVERITY_INFO, "armed echt");
+    }
+    //ACECORE
 
     // exit immediately if no landing gear output has been enabled
     if (!SRV_Channels::function_assigned(SRV_Channel::k_landing_gear_control)) {
