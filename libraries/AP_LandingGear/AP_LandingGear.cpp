@@ -83,8 +83,6 @@ AP_LandingGear *AP_LandingGear::_singleton;
 /// initialise state of landing gear
 void AP_LandingGear::init()
 {
-    gcs().send_text(MAV_SEVERITY_INFO, "part two");     //ACECORE
-
     if (_pin_deployed != -1) {
         hal.gpio->pinMode(_pin_deployed, HAL_GPIO_INPUT);
         // set pullup/pulldown to default to non-deployed state

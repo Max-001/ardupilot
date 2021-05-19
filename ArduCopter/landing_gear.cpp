@@ -4,6 +4,8 @@
 // Run landing gear controller at 10Hz
 void Copter::landinggear_update()
 {
+    gcs().send_text(MAV_SEVERITY_INFO, "test");
+
     // exit immediately if no landing gear output has been enabled
     if (!SRV_Channels::function_assigned(SRV_Channel::k_landing_gear_control)) {
         return;
