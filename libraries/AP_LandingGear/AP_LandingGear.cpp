@@ -5,7 +5,6 @@
 #include <AP_HAL/AP_HAL.h>
 #include <AP_Logger/AP_Logger.h>
 #include <GCS_MAVLink/GCS.h>
-#include <ArduCopter/Copter.h>                                     //Toegevoegd door ACECORE
 
 extern const AP_HAL::HAL& hal;
 
@@ -113,12 +112,8 @@ void AP_LandingGear::init()
 }
 
 /// set landing gear position to retract, deploy or deploy-and-keep-deployed
-void AP_LandingGear::set_position(LandingGearCommand cmd)                           //Dit gedeelte komt alleen voor aan het begin bij het initialiseren
+void AP_LandingGear::set_position(LandingGearCommand cmd)
 {
-    //uint16_t i = hal.rcin->read(5);         // reading ch6
-    //gcs().send_text(MAV_SEVERITY_CRITICAL, "i == %5f", i);
-    //gcs().send_text(MAV_SEVERITY_INFO, "part one");
-
     switch (cmd) {
         case LandingGear_Retract:
             retract();
@@ -127,10 +122,6 @@ void AP_LandingGear::set_position(LandingGearCommand cmd)                       
             deploy();
             break;
     }
-    //if (i >= 1500) {
-    //    retract();
-    //    gcs().send_text(MAV_SEVERITY_INFO, "Dit werkt");
-    //}
 }
 
 /// deploy - deploy landing gear
@@ -153,11 +144,6 @@ void AP_LandingGear::deploy()
 /// retract - retract landing gear
 void AP_LandingGear::retract()
 {
-    float notarmed = 0;
-    if (!copter.motors->armed()) {          //Only retract if copter is armed
-        notarmed = 1;
-    }
-    if (notarmed == 0) {
     // set servo PWM to retracted position
     SRV_Channels::set_output_limit(SRV_Channel::k_landing_gear_control, SRV_Channel::SRV_CHANNEL_LIMIT_MIN);
 
@@ -168,7 +154,6 @@ void AP_LandingGear::retract()
     // send message only if output has been configured
     if (SRV_Channels::function_assigned(SRV_Channel::k_landing_gear_control)) {
         gcs().send_text(MAV_SEVERITY_INFO, "LandingGear: RETRACT");
-    }
     }
 }
 
