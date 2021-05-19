@@ -119,9 +119,11 @@ void AP_LandingGear::set_position(LandingGearCommand cmd)                       
     //gcs().send_text(MAV_SEVERITY_INFO, "part one");
 
     switch (cmd) {
+        if (copter.motors->armed()) {          //Only retract if copter is armed
         case LandingGear_Retract:
             retract();
             break;
+        }
         case LandingGear_Deploy:
             deploy();
             break;

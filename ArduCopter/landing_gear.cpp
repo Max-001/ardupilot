@@ -5,10 +5,10 @@
 void Copter::landinggear_update()
 {
     //ACECORE
-    float i = hal.rcin->read(5);         // reading ch6
-    gcs().send_text(MAV_SEVERITY_CRITICAL, "i == %5f", i);
+    //float i = hal.rcin->read(5);         // reading ch6
+    //gcs().send_text(MAV_SEVERITY_CRITICAL, "i == %5f", i);
     if (!copter.motors->armed()) {
-        gcs().send_text(MAV_SEVERITY_INFO, "disarmed");
+        //gcs().send_text(MAV_SEVERITY_INFO, "disarmed");
         copter.landinggear.set_position(AP_LandingGear::LandingGear_Deploy);
     }
     //ACECORE
