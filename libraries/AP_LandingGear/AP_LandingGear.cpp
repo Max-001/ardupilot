@@ -119,11 +119,9 @@ void AP_LandingGear::set_position(LandingGearCommand cmd)                       
     //gcs().send_text(MAV_SEVERITY_INFO, "part one");
 
     switch (cmd) {
-        if (copter.motors->armed()) {          //Only retract if copter is armed
         case LandingGear_Retract:
             retract();
             break;
-        }
         case LandingGear_Deploy:
             deploy();
             break;
@@ -154,6 +152,11 @@ void AP_LandingGear::deploy()
 /// retract - retract landing gear
 void AP_LandingGear::retract()
 {
+    float notarmed = 0;
+    if (!copter.motors->armed()) {          //Only retract if copter is armed
+        notarmed = 1;
+    }
+    if (notarmed == 0) {
     // set servo PWM to retracted position
     SRV_Channels::set_output_limit(SRV_Channel::k_landing_gear_control, SRV_Channel::SRV_CHANNEL_LIMIT_MIN);
 
@@ -164,6 +167,7 @@ void AP_LandingGear::retract()
     // send message only if output has been configured
     if (SRV_Channels::function_assigned(SRV_Channel::k_landing_gear_control)) {
         gcs().send_text(MAV_SEVERITY_INFO, "LandingGear: RETRACT");
+    }
     }
 }
 
