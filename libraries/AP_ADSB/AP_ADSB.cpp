@@ -169,6 +169,7 @@ AP_ADSB::AP_ADSB()
         AP_HAL::panic("AP_ADSB must be singleton");
     }
     _singleton = this;
+    //TEST TEKST ACECORE
 }
 
 /*
