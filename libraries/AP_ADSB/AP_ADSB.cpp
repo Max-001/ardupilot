@@ -169,7 +169,7 @@ AP_ADSB::AP_ADSB()
         AP_HAL::panic("AP_ADSB must be singleton");
     }
     _singleton = this;
-    //TEST TEKST ACECORE
+    gcs().send_text(MAV_SEVERITY_CRITICAL, "ACECORE ADSB loggin staat aan!");
 }
 
 /*
@@ -271,11 +271,13 @@ void AP_ADSB::update(void)
 
     if (_my_loc.is_zero()) {
         // if we don't have a GPS lock then there's nothing else to do
+        gcs().send_text(MAV_SEVERITY_CRITICAL, "ACECORE er is geen GPS locatie beschikbaar, ADSB zal niet werken :(");
         return;
     }
 
     if (out_state.chan < 0) {
         // if there's no transceiver detected then do not set ICAO and do not service the transceiver
+        gcs().send_text(MAV_SEVERITY_CRITICAL, "ACECORE er is geen transceiver gedetecteerd, ADSB zal niet werken :(");
         return;
     }
 
@@ -351,7 +353,9 @@ void AP_ADSB::determine_furthest_aircraft(void)
             max_distance_index = index;
         }
     } // for index
-
+    
+    gcs().send_text(MAV_SEVERITY_CRITICAL, "ACECORE Max distance van vliegtuig == %5f", max_distance);
+    
     furthest_vehicle_index = max_distance_index;
     furthest_vehicle_distance = max_distance;
 }
@@ -441,6 +445,7 @@ void AP_ADSB::handle_adsb_vehicle(const adsb_vehicle_t &vehicle)
             (vehicle.info.ICAO_address > 0x00FFFFFF) || // ICAO address is 24bits, so ignore higher values.
             !(vehicle.info.flags & required_flags_position) ||
             now - vehicle.last_update_ms > VEHICLE_TIMEOUT_MS) {
+                gcs().send_text(MAV_SEVERITY_CRITICAL, "ACECORE geen één vliegtuig wordt gespot";
 
         // vehicle is out of range or invalid lat/lng. If we're tracking it, delete from list. Otherwise ignore it.
         if (is_tracked_in_list) {
