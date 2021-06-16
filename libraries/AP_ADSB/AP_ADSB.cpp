@@ -169,7 +169,7 @@ AP_ADSB::AP_ADSB()
         AP_HAL::panic("AP_ADSB must be singleton");
     }
     _singleton = this;
-    gcs().send_text(MAV_SEVERITY_CRITICAL, "ACECORE ADSB loggin staat aan!");
+    //gcs().send_text(MAV_SEVERITY_CRITICAL, "ACECORE ADSB loggin staat aan!");       //WERKT NIET!!
 }
 
 /*
@@ -271,13 +271,13 @@ void AP_ADSB::update(void)
 
     if (_my_loc.is_zero()) {
         // if we don't have a GPS lock then there's nothing else to do
-        gcs().send_text(MAV_SEVERITY_CRITICAL, "ACECORE er is geen GPS locatie beschikbaar, ADSB zal niet werken :(");
+        gcs().send_text(MAV_SEVERITY_CRITICAL, "ACECORE er is geen GPS locatie beschikbaar");           //DIT WERKT PRIMA!
         return;
     }
 
     if (out_state.chan < 0) {
         // if there's no transceiver detected then do not set ICAO and do not service the transceiver
-        gcs().send_text(MAV_SEVERITY_CRITICAL, "ACECORE er is geen transceiver gedetecteerd, ADSB zal niet werken :(");
+        //gcs().send_text(MAV_SEVERITY_CRITICAL, "ACECORE er is geen transceiver gedetecteerd");        //WERKT NIET
         return;
     }
 
