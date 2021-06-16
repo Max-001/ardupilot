@@ -445,7 +445,7 @@ void AP_ADSB::handle_adsb_vehicle(const adsb_vehicle_t &vehicle)
             (vehicle.info.ICAO_address > 0x00FFFFFF) || // ICAO address is 24bits, so ignore higher values.
             !(vehicle.info.flags & required_flags_position) ||
             now - vehicle.last_update_ms > VEHICLE_TIMEOUT_MS) {
-                gcs().send_text(MAV_SEVERITY_CRITICAL, "ACECORE geen één vliegtuig wordt gespot";
+                gcs().send_text(MAV_SEVERITY_CRITICAL, "ACECORE geen één vliegtuig wordt gespot");
 
         // vehicle is out of range or invalid lat/lng. If we're tracking it, delete from list. Otherwise ignore it.
         if (is_tracked_in_list) {
