@@ -531,7 +531,7 @@ void GCS_MAVLINK_Copter::handle_rc_channels_override(const mavlink_message_t &ms
         return; // Only accept control from our gcs                                 // is this right? I have no idea what it does
     }
 
-    const uint32_t tnow = AP_HAL::millis();                                         // is this right? I have no idea what it does
+    //const uint32_t tnow = AP_HAL::millis();                                         // is this right? I have no idea what it does
 
     mavlink_rc_channels_override_t packet;                                          // is this right? I have no idea
     mavlink_msg_rc_channels_override_decode(&msg, &packet);                         // is this right? I have no idea what it does
